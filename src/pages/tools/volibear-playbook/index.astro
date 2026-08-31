@@ -20,12 +20,13 @@ const globalStates = [
 <ContentLayout
   title="Volibear worked playbook"
   description="A complete example showing how one champion moves through mechanics, matchup, and global decision loops."
+  wide
   {...siteConfig}
 >
   <header class="playbook-hero">
     <div>
       <p class="eyebrow">Worked example · method, not a build guide</p>
-      <h1>Volibear top,<br />tested end to end</h1>
+      <h2>Volibear top,<br />tested end to end</h2>
       <p>
         This playbook demonstrates the standard expected for any chosen champion.
         It avoids patch-fragile damage numbers and records conditions that can be re-tested.
@@ -140,7 +141,7 @@ const globalStates = [
 
 <style>
   .playbook-hero { display: grid; grid-template-columns: 1.35fr 0.65fr; gap: clamp(2rem, 6vw, 5rem); align-items: end; margin: 1rem 0 4rem; }
-  .playbook-hero h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.88; letter-spacing: -0.065em; }
+  .playbook-hero h2 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.88; letter-spacing: -0.065em; }
   .playbook-hero > div > p:not(.eyebrow) { max-width: 60ch; font-size: 1.08rem; color: var(--mastery-muted); }
   .atlas-link { display: inline-flex; margin-top: 0.8rem; padding: 0.75rem 1rem; background: var(--mastery-accent); color: white; font-weight: 800; text-decoration: none; }
   .contract { padding: 1.25rem; border: 1px solid var(--mastery-line); background: var(--mastery-surface); transform: rotate(1.5deg); }
