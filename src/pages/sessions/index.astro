@@ -9,10 +9,12 @@ import { sessionLabels, siteConfig } from "../../site-config";
   description={`The twelve-week teaching schedule: what happens in each ${sessionLabels.singular.toLowerCase()}, what to prepare, and what leaves the room.`}
   {...siteConfig}
 >
+  <p class="eyebrow">Practice · evidence · revision</p>
+  <h1>{sessionLabels.plural}</h1>
   <p>
-    The internal collection and URL stay <code>sessions</code>. Set the visible
-    singular and plural names once in <code>src/site-config.ts</code> and use
-    the language your course deserves everywhere readers see it.
+    Every lab produces an artefact: a drill log, matchup rule, annotated clip,
+    decision tree, or re-test. Bring the named preparation and leave with the
+    next version of your champion playbook.
   </p>
   <SessionsGrid />
 </ContentLayout>

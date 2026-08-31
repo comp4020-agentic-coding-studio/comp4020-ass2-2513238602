@@ -1,0 +1,16 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import PeopleGrid from "../../components/PeopleGrid.astro";
+import { siteConfig } from "../../site-config";
+---
+
+<ContentLayout
+  title="Teaching team"
+  description="The coaches and analysts who run lectures, Champion Labs, reviews, and the capstone panel."
+  {...siteConfig}
+>
+  <p class="eyebrow">Coaching roles</p>
+  <h1>Teaching team</h1>
+  <p>Bring a timestamp, a current rule, and the decision you are trying to improve when asking for review.</p>
+  <PeopleGrid />
+</ContentLayout>

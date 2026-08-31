@@ -1,0 +1,19 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import LecturesGrid from "../../components/LecturesGrid.astro";
+import { siteConfig } from "../../site-config";
+---
+
+<ContentLayout
+  title="Lectures"
+  description="Twelve concise theory sessions that feed directly into the champion practice loop."
+  {...siteConfig}
+>
+  <p class="eyebrow">12 weeks · one evolving playbook</p>
+  <h1>Lectures</h1>
+  <p>
+    Each lecture gives the next Champion Lab a decision model: plan a test, run it,
+    review evidence, revise the rule, and schedule the next challenge.
+  </p>
+  <LecturesGrid />
+</ContentLayout>

@@ -1,0 +1,31 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import AssessmentsGrid from "../../components/AssessmentsGrid.astro";
+import { siteConfig } from "../../site-config";
+---
+
+<ContentLayout
+  title="Assessment"
+  description="Three connected submissions that grow from one matchup test into a defensible champion mastery playbook."
+  {...siteConfig}
+>
+  <p class="eyebrow">20% · 40% · 40%</p>
+  <h1>Assessment</h1>
+  <p>
+    Assessment follows the same loop as practice. The baseline protocol proves you can
+    test one claim; the portfolio scales the method; the capstone pressure-tests the model.
+  </p>
+  <div class="weight-strip" aria-label="Assessment weight distribution">
+    <span style="--weight: 20">Protocol · 20%</span>
+    <span style="--weight: 40">Portfolio · 40%</span>
+    <span style="--weight: 40">Capstone · 40%</span>
+  </div>
+  <AssessmentsGrid />
+</ContentLayout>
+
+<style>
+  .weight-strip { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 0.35rem; margin: 1.5rem 0 2rem; }
+  .weight-strip span { padding: 0.8rem; color: white; background: var(--mastery-accent); font-size: 0.82rem; font-weight: 800; text-align: center; }
+  .weight-strip span:first-child { background: var(--mastery-gold); color: var(--mastery-ink); }
+  @media (max-width: 42rem) { .weight-strip { grid-template-columns: 1fr; } }
+</style>

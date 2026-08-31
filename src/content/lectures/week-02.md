@@ -1,23 +1,19 @@
 ---
-title: Second lecture
-description:
-  Week 2 — the first substantive material, and the run-up to the first review
+title: Champion identity and mechanics
+description: Convert a champion kit into repeatable drills for spacing, combos, cooldowns, resource use, and escape routes.
 week: 2
 date: 2027-03-01
-teachers:
-  - idris-fenn
-related:
-  - sessions/02-first-review
-  - assessments/assignment-1
+teachers: [mei-chen]
+related: [sessions/02-mechanics-loop]
+loopStage: drill
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+## From kit text to execution
 
-Replace this page. It exists so the lectures listing sorts by week and the
-related block has more than one edge to draw.
+A champion identity is a set of reliable actions under pressure. We map each ability to purpose, condition, failure mode, and recovery option, then build drills that produce measurable repetitions.
 
-## Outline
+For Volibear top, students distinguish short trades, extended fights, tower-dive setup, wave clear, and disengage. The point is not one fixed combo; it is choosing the smallest sequence that solves the current problem.
 
-- the first substantive material, and where it shows up in practice
-- what the first review is looking for
-- reading before next week
+## Evidence
+
+Bring a mechanic log showing attempt count, success condition, common miss, and the adjustment for the next block.

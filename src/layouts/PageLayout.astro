@@ -6,3 +6,29 @@ import { siteConfig } from "../site-config";
 <MdxPageLayout siteConfig={siteConfig} {...Astro.props}>
   <slot />
 </MdxPageLayout>
+
+<style is:global>
+  :root {
+    --mastery-ink: #17201d;
+    --mastery-muted: #58625d;
+    --mastery-line: color-mix(in srgb, var(--at-text, #17201d) 18%, transparent);
+    --mastery-surface: color-mix(in srgb, var(--at-bg, #fffaf0) 94%, #d9c464);
+    --mastery-accent: #176b58;
+    --mastery-gold: #c49a35;
+    --mastery-danger: #a34732;
+  }
+
+  body {
+    background-image:
+      linear-gradient(90deg, color-mix(in srgb, var(--mastery-accent) 4%, transparent) 1px, transparent 1px),
+      linear-gradient(color-mix(in srgb, var(--mastery-accent) 4%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  :where(h1, h2, h3) { text-wrap: balance; }
+  :where(p, li) { text-wrap: pretty; }
+  .eyebrow { margin: 0 0 0.7rem; color: var(--mastery-accent); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+  .training-note { padding: 1rem 1.15rem; border-inline-start: 4px solid var(--mastery-gold); background: var(--mastery-surface); }
+  .training-note strong { color: var(--mastery-accent); }
+  :focus-visible { outline: 3px solid var(--mastery-gold); outline-offset: 3px; }
+</style>

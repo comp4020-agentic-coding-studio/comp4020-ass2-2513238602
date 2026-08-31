@@ -1,30 +1,20 @@
 ---
-title: Opening lecture
-description:
-  The first lecture — what the course is, why it is shaped this way, and what
-  happens in week 1
+title: Build a mastery loop
+description: Establish a champion baseline, define observable goals, and turn every match into the next training decision.
 week: 1
 date: 2027-02-22
-teachers:
-  - marisol-quaye
+teachers: [mei-chen]
 slides: /decks/week-01/
-related:
-  - sessions/01-getting-started
+related: [sessions/01-calibration, assessments/baseline-protocol]
+loopStage: plan
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+## Central question
 
-Replace this page. A lecture entry says what was covered and links to the pages
-that own the detail, so the lecture stays short and nothing is explained twice.
+How do you know whether you are improving at a champion rather than simply playing more games?
 
-The `related:` ref above is a graph edge: it renders on this page and on the
-session's, so declare a connection once, on whichever side is convenient.
+We separate outcome metrics such as rank and win rate from controllable evidence: first-three-wave plans, missed ability windows, recall timing, objective arrivals, and the quality of the next hypothesis.
 
-The page renders its `slides:` link automatically. Decks are markdown too,
-under `src/decks/`; the path is part of the lecture's API metadata.
+## After class
 
-## Outline
-
-- what the course is for
-- how the weeks are shaped
-- what to do before the first session
+Choose one champion and one primary role. Record a baseline, then write one mechanic goal, one matchup goal, and one global-decision goal that can be checked in a replay.

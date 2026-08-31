@@ -1,0 +1,180 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { withBase } from "astro-theme-university/url";
+import { siteConfig } from "../../../site-config";
+
+const mechanics = [
+  ["Approach", "Q route reaches the target without crossing unnecessary threat zones", "Target keeps distance or interrupts the approach", "Change angle, preserve Q reset, or abandon"],
+  ["Trade", "E zone and first W create a favourable health or wave exchange", "Second W window cannot be reached safely", "Take the short trade; do not pay for the re-cast"],
+  ["Commit", "Enemy escape and key denial tool are unavailable", "Target can disengage after Volibear commits", "Hold ultimate or convert pressure elsewhere"],
+  ["Exit", "A path remains after the final damaging action", "Trade wins damage but loses the next wave or life", "Shorten sequence and leave earlier"],
+];
+
+const globalStates = [
+  ["Ahead", "Crash or draw pressure, then arrive first", "Next two waves, objective timer, enemy collapse routes"],
+  ["Even", "Choose side value versus group value before showing", "Teleport, safe collector, allied engage, vision line"],
+  ["Behind", "Protect reliable income and deny the easiest enemy conversion", "Wave loss ceiling, cross-map trade, peel value"],
+];
+---
+
+<ContentLayout
+  title="Volibear worked playbook"
+  description="A complete example showing how one champion moves through mechanics, matchup, and global decision loops."
+  {...siteConfig}
+>
+  <header class="playbook-hero">
+    <div>
+      <p class="eyebrow">Worked example · method, not a build guide</p>
+      <h1>Volibear top,<br />tested end to end</h1>
+      <p>
+        This playbook demonstrates the standard expected for any chosen champion.
+        It avoids patch-fragile damage numbers and records conditions that can be re-tested.
+      </p>
+      <a class="atlas-link" href={withBase("/tools/matchup-atlas/")}>Open the complete matchup atlas</a>
+    </div>
+    <div class="contract">
+      <span>Champion contract</span>
+      <strong>VOLIBEAR · TOP</strong>
+      <dl>
+        <div><dt>Primary job</dt><dd>Create a reliable first commitment</dd></div>
+        <div><dt>Failure signal</dt><dd>Entry spends every exit resource</dd></div>
+        <div><dt>Review unit</dt><dd>One decision, one condition, one revision</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section aria-labelledby="mechanics-heading">
+    <p class="eyebrow">Loop 1 · mechanics</p>
+    <h2 id="mechanics-heading">Train a chain with an exit</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Phase</th><th>Success condition</th><th>Failure to watch</th><th>Revision</th></tr></thead>
+        <tbody>{mechanics.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p class="training-note"><strong>Drill gate:</strong> twenty clean repetitions in a controlled setup, ten under movement, then a partner test. Missing the gate sends the drill back one level.</p>
+  </section>
+
+  <section class="matchup-protocol" aria-labelledby="matchup-heading">
+    <div>
+      <p class="eyebrow">Loop 2 · matchup</p>
+      <h2 id="matchup-heading">Make “counter” testable</h2>
+      <p>Use the same six fields for every opponent. The answer can change; the evidence trail must remain readable.</p>
+    </div>
+    <ol>
+      <li><span>01</span><strong>Threat</strong><p>Name the exact interaction that denies your plan.</p></li>
+      <li><span>02</span><strong>Condition</strong><p>Record level, wave, items, side, cooldowns, and jungle pressure.</p></li>
+      <li><span>03</span><strong>Response</strong><p>Choose one movement, timing, setup, or resource change.</p></li>
+      <li><span>04</span><strong>Evidence</strong><p>Link a controlled reset and a match timestamp.</p></li>
+      <li><span>05</span><strong>Rule</strong><p>State when the response works and when it does not.</p></li>
+      <li><span>06</span><strong>Re-test</strong><p>Schedule the trigger: patch, failure, or changed opponent plan.</p></li>
+    </ol>
+  </section>
+
+  <section class="scenario-lab" aria-labelledby="scenario-heading">
+    <div>
+      <p class="eyebrow">Try it · scenario composer</p>
+      <h2 id="scenario-heading">Build the next Volibear test</h2>
+      <p>Change the conditions. The composer gives you a protocol sentence to take into a custom lobby.</p>
+    </div>
+    <form id="scenario-form">
+      <label>Opponent pattern
+        <select name="pattern">
+          <option>ranged spacing</option><option>disengage</option><option>extended fight</option><option>sustain</option><option>burst all-in</option>
+        </select>
+      </label>
+      <label>Wave state
+        <select name="wave">
+          <option>neutral wave</option><option>slow push out</option><option>slow push in</option><option>frozen near enemy tower</option><option>frozen near allied tower</option>
+        </select>
+      </label>
+      <label>Pressure
+        <select name="pressure">
+          <option>junglers unseen</option><option>enemy jungler nearby</option><option>allied jungler nearby</option><option>isolated lane</option>
+        </select>
+      </label>
+      <label>Test stage
+        <select name="stage">
+          <option>opening three waves</option><option>first recall</option><option>level-six window</option><option>first side-lane assignment</option><option>objective setup</option>
+        </select>
+      </label>
+    </form>
+    <output id="scenario-output">Against ranged spacing, test the opening three waves from a neutral wave with junglers unseen; preserve an exit and record the first condition that invalidates the plan.</output>
+  </section>
+
+  <section aria-labelledby="global-heading">
+    <p class="eyebrow">Loop 3 · global decision</p>
+    <h2 id="global-heading">Carry lane knowledge onto the map</h2>
+    <div class="global-grid">
+      {globalStates.map(([state, job, checks]) => <article><span>{state}</span><h3>{job}</h3><p>{checks}</p></article>)}
+    </div>
+    <p>
+      In a teamfight, declare the job first: engage, disrupt, peel, zone, or threaten a flank.
+      Review whether the job was correct before reviewing the mechanical execution.
+    </p>
+  </section>
+
+  <section class="audit" aria-labelledby="audit-heading">
+    <p class="eyebrow">Mastery gate</p>
+    <h2 id="audit-heading">A rule earns “mastered” only when…</h2>
+    <ul>
+      <li>the controlled test can be reproduced;</li>
+      <li>the response appears in a full match;</li>
+      <li>the rule survives a changed condition;</li>
+      <li>the student can explain the opponent's counter-response;</li>
+      <li>a future re-test trigger is recorded.</li>
+    </ul>
+  </section>
+</ContentLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#scenario-form");
+  const output = document.querySelector<HTMLOutputElement>("#scenario-output");
+  if (form && output) {
+    form.addEventListener("input", () => {
+      const data = new FormData(form);
+      output.textContent = `Against ${data.get("pattern")}, test the ${data.get("stage")} from a ${data.get("wave")} with ${data.get("pressure")}; preserve an exit and record the first condition that invalidates the plan.`;
+    });
+  }
+</script>
+
+<style>
+  .playbook-hero { display: grid; grid-template-columns: 1.35fr 0.65fr; gap: clamp(2rem, 6vw, 5rem); align-items: end; margin: 1rem 0 4rem; }
+  .playbook-hero h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.88; letter-spacing: -0.065em; }
+  .playbook-hero > div > p:not(.eyebrow) { max-width: 60ch; font-size: 1.08rem; color: var(--mastery-muted); }
+  .atlas-link { display: inline-flex; margin-top: 0.8rem; padding: 0.75rem 1rem; background: var(--mastery-accent); color: white; font-weight: 800; text-decoration: none; }
+  .contract { padding: 1.25rem; border: 1px solid var(--mastery-line); background: var(--mastery-surface); transform: rotate(1.5deg); }
+  .contract > span { font: 800 0.7rem var(--font-roboto-mono, monospace); text-transform: uppercase; }
+  .contract > strong { display: block; margin: 1rem 0; font-size: 1.55rem; }
+  .contract dl { margin: 0; }
+  .contract dl div { padding: 0.7rem 0; border-top: 1px solid var(--mastery-line); }
+  .contract dt { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+  .contract dd { margin: 0.2rem 0 0; }
+  section { margin-block: 4rem; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { padding: 0.9rem; border: 1px solid var(--mastery-line); text-align: left; vertical-align: top; }
+  th { background: var(--mastery-accent); color: white; }
+  .matchup-protocol { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 2rem; }
+  .matchup-protocol ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0; padding: 1px; background: var(--mastery-line); list-style: none; }
+  .matchup-protocol li { padding: 1rem; background: var(--at-bg, white); }
+  .matchup-protocol li span { color: var(--mastery-gold); font: 800 0.72rem var(--font-roboto-mono, monospace); }
+  .matchup-protocol li strong { display: block; margin: 0.8rem 0 0.25rem; }
+  .matchup-protocol li p { margin: 0; color: var(--mastery-muted); font-size: 0.85rem; }
+  .scenario-lab { padding: clamp(1.2rem, 4vw, 2.5rem); background: var(--mastery-ink); color: white; }
+  .scenario-lab .eyebrow { color: #f1d46d; }
+  #scenario-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 1.5rem; }
+  #scenario-form label { display: grid; gap: 0.35rem; color: #ddd; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+  #scenario-form select { min-width: 0; padding: 0.7rem; border: 1px solid #ffffff45; background: #ffffff10; color: white; }
+  #scenario-form option { color: black; }
+  #scenario-output { display: block; margin-top: 1rem; padding: 1rem; border-left: 4px solid var(--mastery-gold); background: #ffffff10; font-size: 1.05rem; }
+  .global-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+  .global-grid article { padding: 1.2rem; border: 1px solid var(--mastery-line); }
+  .global-grid span { color: var(--mastery-accent); font: 800 0.72rem var(--font-roboto-mono, monospace); text-transform: uppercase; }
+  .global-grid h3 { margin: 0.8rem 0; }
+  .global-grid p { color: var(--mastery-muted); }
+  .audit { padding: clamp(1.4rem, 4vw, 3rem); border: 1px solid var(--mastery-accent); background: linear-gradient(120deg, color-mix(in srgb, var(--mastery-accent) 10%, transparent), transparent); }
+  .audit ul { columns: 2; }
+  @media (max-width: 52rem) { .playbook-hero, .matchup-protocol { grid-template-columns: 1fr; } #scenario-form { grid-template-columns: repeat(2, 1fr); } .global-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 34rem) { .matchup-protocol ol, #scenario-form { grid-template-columns: 1fr; } .audit ul { columns: 1; } }
+</style>
