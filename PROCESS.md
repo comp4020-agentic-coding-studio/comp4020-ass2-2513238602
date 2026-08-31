@@ -1,53 +1,23 @@
 # Process overview
 
-<!-- TEMPLATE: this file is a shape to fill in, not a form. Replace everything
-     in it with your own overview, and delete this comment — `pnpm
-     check:evidence` will remind you if it's still here. -->
-
-Written by you, for a reader: how you got from the brief to the harness and
-agentic workflow behind this submission. Markers read this file and follow its
-citations; they don't trawl the repo for evidence you didn't point at.
-
-This file is the shape; the course site's
-[assessment page](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#what-you-submit)
-is the requirement, and its
-[word counts](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#word-counts)
-cover every deliverable.
-
 ## What I built
 
-One paragraph: the thing, and the idea behind it.
+SLOP3745 is the League of Legends course I wanted but could not find: twelve weeks devoted to mastering one champion deeply enough that “counter” stops being a tier-list verdict and becomes a testable claim. Students choose one champion and role; Volibear top is the worked example. The site carries one improvement loop—plan, drill, test, review, revise—through mechanics, lane matchups, and global decisions. The curriculum culminates in a full-roster interaction atlas and three-cycle re-tests of the ten hardest interactions identified by each student's own evidence.
+
+![SLOP3745 Champion Mastery social card](src/assets/images/champion-mastery-card.png)
 
 ## How I got here
 
-The account of the process: how the work actually went, and how you knew the
-result was right. Tell it in whatever order makes it clear. A weekly prototype
-needs a paragraph or two; an assignment needs more.
+The first design was a general MOBA performance course. That scope made it easy to generate plausible weekly topics but hard to make any one promise concrete. I redirected the work around a sharper prompt:
 
-Cite the record as you go, as links whose text is the commit hash or range and
-whose target is this repo's commit or compare URL, so a reader clicks straight
-to the evidence:
+> “Make the course directly about League of Legends. A student who chooses Volibear must practise it against every champion and in the full game, so every counter becomes understandable.”
 
-- one commit: [`a1b2c3d`](https://github.com/YOUR-ORG/YOUR-REPO/commit/a1b2c3d)
-- a range:
-  [`a1b2c3d...e4f5a6b`](https://github.com/YOUR-ORG/YOUR-REPO/compare/a1b2c3d...e4f5a6b)
+I treated that as a coverage problem at two resolutions. Likely lane opponents receive repeatable one-versus-one protocols; every champion receives a global interaction entry; uncertain or high-impact cases are promoted into direct testing. This avoids pretending that 173 identical lane drills would be rigorous while still making the whole roster visible. The resulting structure—12 lectures, 12 Champion Labs, 20/40/40 assessment, the complete atlas, the Volibear scenario composer, and the course-specific harness—is recorded in [`5a6bd29`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-2513238602/commit/5a6bd29).
 
-To pair a prompt with the commit it produced, quote the prompt (curated, not a
-full transcript) next to the citation:
+The harness became more useful when it rejected claims rather than merely prescribing outputs. It requires conditions and re-test triggers for “mastered”, official versioned roster data, base-aware internal links, and a full build before a feature can be accepted. I added tests for the promises the platform could not infer: one lecture and lab in every week, all five loop stages, assessment totalling 100%, a policy API node, 173 unique roster entries, ten priority re-tests, and one persistent status control per champion.
 
-> the prompt, verbatim
+The most important technical failure was Windows loading the template's published TypeScript integrations through Vite 8's module runner as if nested CommonJS helpers were ESM. Reinstalling dependencies did not change the failure. I moved config loading onto Node 24's native path with a narrow Windows-only TypeScript hook, then configured the Astro content environment to pre-bundle the two CommonJS helpers it actually needed. This fixed the cause without replacing the provided integrations or course API.
 
-Screenshots are welcome where one carries the point better than a sentence does.
-Commit the file to this repo and link it with a **relative** path, which is what
-makes it render on GitHub: `![alt text](docs/before.png)`. Images don't count
-towards the word count and don't replace the citation.
+My first complete build exposed a quieter quality problem: custom index and tool pages duplicated the layout's `h1`. I audited the generated HTML, removed the redundant headings, widened only the pages that benefited from it, and made atlas persistence fail soft when storage is unavailable. That review is isolated in [`5202188`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-2513238602/commit/5202188).
 
-## Before you ship
-
-`pnpm check:evidence` verifies that this comment is gone, that your citations
-resolve to real commits, that a crit week's reflection entry is in
-`reflections/`, and that your `CLAUDE.md` is there. It checks that your account
-is traceable, not that it is good: that is the marker's call.
-
-Images aren't checked: unlike a citation whose SHA doesn't resolve, a broken
-image is visible the moment this file is rendered on GitHub.
+I accepted the site only after `pnpm check` produced zero Astro diagnostics, built 40 pages, found no axe or broken-link violations, verified every GitHub Pages base-path link, generated a 31-node course API, checked the Astromotion deck, and passed all eight spec tests. The artwork was generated from a constrained prompt—abstract storm-bear energy, top-lane geometry, Slop palette, no Riot marks or character likeness—and then inspected before replacing every starter asset. The final result is deliberately not a build guide: it is a system for proving, revising, and maintaining what a player thinks they know.
