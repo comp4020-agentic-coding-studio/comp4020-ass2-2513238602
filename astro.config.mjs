@@ -56,7 +56,14 @@ const [
   import("./scripts/pages-base.ts"),
 ]);
 
-const { site, base } = resolveDeployment(process.env, gitOrigin);
+const deployment = resolveDeployment(process.env, gitOrigin);
+// GitHub Pages needs the repository sub-path in production, while Astro's
+// development server always runs at localhost root. Keeping those modes
+// separate prevents local CSS, fonts, logos, and scripts from resolving to a
+// path the development server does not expose.
+const localDevelopment = process.argv.includes("dev");
+const site = localDevelopment ? undefined : deployment.site;
+const base = localDevelopment ? "/" : deployment.base;
 
 export default defineConfig({
   site,

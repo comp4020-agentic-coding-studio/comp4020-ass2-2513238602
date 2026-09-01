@@ -1,7 +1,7 @@
 ---
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
-import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { courseMeta } from "../course-config";
 import { dataDragonVersion } from "../data/champions";
@@ -24,14 +24,14 @@ const loop = [
 const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
 ---
 
-<ContentLayout title={`${courseMeta.code}: ${courseMeta.title}`} description={courseMeta.description} wide {...siteConfig}>
+<BaseLayout title={`${courseMeta.code}: ${courseMeta.title}`} description={courseMeta.description} mainAttrs={{ class: "course-home" }} {...siteConfig}>
   <section class="hero" aria-labelledby="course-promise">
     <img class="hero-art" src={splash("Volibear").src} alt="Volibear standing in an ice storm, official League of Legends splash artwork" />
     <div class="hero-scrim"></div>
     <div class="hero-content">
       <p class="hero-code">SLOP3745 // SEASON 2027</p>
       <p class="eyebrow">One champion · every matchup · the whole map</p>
-      <h2 id="course-promise">Master one.<br /><em>Answer everyone.</em></h2>
+      <h1 id="course-promise">Master one.<br /><em>Answer everyone.</em></h1>
       <p class="lede">
         A twelve-week League of Legends training studio. Choose one champion,
         pressure-test every lane, and turn matchup knowledge into repeatable map decisions.
@@ -97,7 +97,7 @@ const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
   </section>
 
   <p class="riot-source">League of Legends champion artwork and portraits are served from Riot Games Data Dragon for educational identification. This course is not endorsed by Riot Games.</p>
-</ContentLayout>
+</BaseLayout>
 
 <style>
   .hero { position: relative; min-height: min(47rem, 78vh); margin: 0 0 1.25rem; overflow: hidden; border: 1px solid var(--mastery-line); background: #07101d; box-shadow: 0 2.5rem 7rem rgb(0 0 0 / 42%); isolation: isolate; }
@@ -106,8 +106,11 @@ const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
   .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 47%, rgb(105 217 255 / 18%) 47.15%, transparent 47.4%); z-index: -1; }
   .hero-content { display: grid; align-content: center; width: min(58%, 46rem); min-height: min(47rem, 78vh); padding: clamp(2rem, 6vw, 5rem); }
   .hero-code { position: absolute; inset: 1.4rem 1.4rem auto auto; margin: 0; color: rgb(255 255 255 / 58%); font: 800 0.7rem ui-monospace, monospace; letter-spacing: 0.14em; }
-  .hero h2 { max-width: 9ch; margin: 0; font-size: clamp(4rem, 9vw, 8.8rem); line-height: 0.78; letter-spacing: -0.075em; text-transform: uppercase; text-shadow: 0 0 40px rgb(0 0 0 / 70%); }
-  .hero h2 em { color: var(--mastery-gold); font-style: normal; }
+  :global(.course-home) { grid-column: full; padding-block-start: 0; }
+  :global(.course-home > *) { grid-column: content; }
+  :global(.course-home > .hero) { grid-column: full; width: min(100%, 1600px); margin-inline: auto; }
+  .hero h1 { max-width: 9ch; margin: 0; color: #f6f9fb; font-family: "Arial Narrow", "Roboto Condensed", "Public Sans", sans-serif; font-size: clamp(4rem, 9vw, 8.8rem); font-weight: 900; line-height: 0.78; letter-spacing: -0.075em; text-transform: uppercase; text-shadow: 0 0 40px rgb(0 0 0 / 70%); }
+  .hero h1 em { color: var(--mastery-gold); font-style: normal; }
   .lede { max-width: 50ch; margin-block: 1.7rem; color: #c1cfda; font-size: clamp(1rem, 1.8vw, 1.25rem); }
   .actions { display: flex; flex-wrap: wrap; gap: 1rem 1.4rem; align-items: center; }
   .primary-action { display: inline-flex; gap: 2.5rem; align-items: center; justify-content: space-between; min-width: 13rem; padding: 0.95rem 1.1rem; color: #04101a; background: var(--mastery-accent); font-weight: 900; text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em; box-shadow: 0 0 35px rgb(105 217 255 / 25%); }
@@ -167,7 +170,11 @@ const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
     .feature-copy { grid-column: 1; }
   }
   @media (max-width: 560px) {
-    .hero h2 { font-size: clamp(3.6rem, 18vw, 5.8rem); }
+    .hero-content { width: auto; max-width: 100%; padding: 2rem 1.35rem 9rem; overflow: hidden; }
+    .hero .eyebrow { max-width: 100%; font-size: 0.62rem; letter-spacing: 0.1em; white-space: normal; }
+    .hero h1 { max-width: 100%; font-size: clamp(3.2rem, 15vw, 4.45rem); line-height: 0.82; }
+    .lede { max-width: 100%; font-size: 0.98rem; }
+    .primary-action { width: 100%; min-width: 0; }
     .hero-code { display: none; }
     .hero-stats { grid-template-columns: repeat(3, 1fr); }
     .hero-stats div { padding: 0.8rem; }

@@ -1,5 +1,5 @@
 ---
-import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { champions, dataDragonVersion } from "../../../data/champions";
 import { siteConfig } from "../../../site-config";
@@ -10,10 +10,9 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
 const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${id}.png`;
 ---
 
-<ContentLayout
+<BaseLayout
   title="Volibear Matchup Atlas"
   description="A complete roster tracker for direct lane tests, global interactions, evidence, revisions, and scheduled re-tests."
-  wide
   {...siteConfig}
 >
   <header class="atlas-hero">
@@ -21,7 +20,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
     <div class="atlas-hero-scrim"></div>
     <div>
       <p class="eyebrow">Selected mastery project · Top lane</p>
-      <h2>All 173 opponents.<br />One evidence trail.</h2>
+      <h1>All 173 opponents.<br />One evidence trail.</h1>
       <p class="atlas-lede">
         Learn the whole roster at the right resolution: direct tests for the course lane pool,
         recognition and teamfight plans for everyone else, then three-cycle re-tests for the ten
@@ -71,17 +70,22 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
         <h2 id="dashboard-heading">Training dashboard</h2>
       </div>
       <div class="dashboard-actions">
+        <button type="button" class="quiet" id="toggle-density" aria-pressed="false">Compact view</button>
         <button type="button" class="secondary" id="export-atlas">Export evidence JSON</button>
         <button type="button" class="quiet" id="reset-atlas">Reset statuses</button>
       </div>
     </div>
 
+    <div class="atlas-controls">
     <div class="progress-panel">
       <div class="progress-copy">
         <strong id="progress-label">0 of {champions.length} started</strong>
         <span id="mastery-label">0 mastered</span>
       </div>
       <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+      <ul class="status-legend" aria-label="Evidence stages">
+        <li data-stage="unseen">Unseen</li><li data-stage="planned">Planned</li><li data-stage="1v1-tested">1v1</li><li data-stage="match-tested">Match</li><li data-stage="re-tested">Re-test</li><li data-stage="mastered">Mastered</li>
+      </ul>
     </div>
 
     <div class="filters" role="search" aria-label="Filter matchup atlas">
@@ -119,6 +123,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
     </div>
 
     <p id="filter-count" class="filter-count" aria-live="polite">Showing {champions.length} champions</p>
+    </div>
 
     <div class="atlas-grid" id="atlas-grid">
       {champions.map((champion) => (
@@ -163,7 +168,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
       The lane pool and test priorities are course planning prompts, not live balance claims.
     </p>
   </section>
-</ContentLayout>
+</BaseLayout>
 
 <script is:inline define:vars={{ champions }}>
   const storageKey = "slop3745-matchup-atlas-v2";
@@ -181,6 +186,8 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   const scopeFilter = document.querySelector("#scope-filter");
   const typeFilter = document.querySelector("#type-filter");
   const statusFilter = document.querySelector("#status-filter");
+  const densityButton = document.querySelector("#toggle-density");
+  const atlasGrid = document.querySelector("#atlas-grid");
   const countLabel = document.querySelector("#filter-count");
   const progressLabel = document.querySelector("#progress-label");
   const masteryLabel = document.querySelector("#mastery-label");
@@ -290,6 +297,12 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
     applyFilters();
   });
 
+  densityButton?.addEventListener("click", () => {
+    const compact = atlasGrid?.classList.toggle("compact") ?? false;
+    densityButton.setAttribute("aria-pressed", String(compact));
+    densityButton.textContent = compact ? "Comfortable view" : "Compact view";
+  });
+
   updateProgress();
   applyFilters();
 </script>
@@ -300,7 +313,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   .atlas-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 65% center; filter: saturate(0.72) brightness(0.72) contrast(1.15); z-index: -3; }
   .atlas-hero-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(3 7 14 / 96%) 0 37%, rgb(3 7 14 / 52%) 66%, transparent), linear-gradient(0deg, rgb(3 7 14 / 75%), transparent 55%); z-index: -2; }
   .atlas-hero > div:last-of-type { max-width: 48rem; }
-  .atlas-hero h2 { max-width: 10ch; margin: 0; font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: 0.82; letter-spacing: -0.07em; text-transform: uppercase; }
+  .atlas-hero h1 { max-width: 10ch; margin: 0; color: #f6f9fb; font-family: "Arial Narrow", "Roboto Condensed", "Public Sans", sans-serif; font-size: clamp(3.5rem, 8vw, 7.5rem); font-weight: 900; line-height: 0.82; letter-spacing: -0.07em; text-transform: uppercase; }
   .atlas-lede { max-width: 62ch; margin-top: 1.5rem; color: #c1cfda; font-size: 1.08rem; }
   .playbook-link { display: inline-flex; margin-top: 0.6rem; padding: 0.8rem 1rem; color: #04101a; background: var(--mastery-accent); font-weight: 900; text-decoration: none; text-transform: uppercase; }
   .atlas-stamp { position: absolute; inset: auto 1.5rem 1.4rem auto; display: grid; margin: 0; text-align: right; }
@@ -325,15 +338,24 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   .dashboard-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   button.secondary, button.quiet { padding: 0.7rem 0.9rem; border: 1px solid var(--mastery-accent); background: var(--mastery-accent); color: white; font-weight: 750; cursor: pointer; }
   button.quiet { background: transparent; color: var(--mastery-accent); }
-  .progress-panel { margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--mastery-line); }
+  .atlas-controls { position: sticky; top: 4.8rem; z-index: 30; margin: 1.5rem 0 1rem; padding: 0.75rem; border: 1px solid var(--mastery-line); background: rgb(5 8 17 / 92%); box-shadow: 0 1.2rem 3rem rgb(0 0 0 / 35%); backdrop-filter: blur(18px); }
+  .progress-panel { margin: 0 0 0.65rem; padding: 0.85rem; border: 1px solid var(--mastery-line); background: #080e18; }
   .progress-copy { display: flex; justify-content: space-between; gap: 1rem; }
   .progress-copy span { color: var(--mastery-muted); }
   .progress-track { height: 0.55rem; margin-top: 0.8rem; overflow: hidden; background: color-mix(in srgb, var(--mastery-line) 60%, transparent); }
   .progress-track span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--mastery-accent), var(--mastery-gold)); transition: width 220ms ease; }
+  .status-legend { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; margin: 0.75rem 0 0; padding: 0; list-style: none; }
+  .status-legend li { display: inline-flex; gap: 0.35rem; align-items: center; color: var(--mastery-muted); font: 800 0.62rem ui-monospace, monospace; letter-spacing: 0.05em; text-transform: uppercase; }
+  .status-legend li::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #485463; }
+  .status-legend [data-stage="planned"]::before { background: #b89a40; }
+  .status-legend [data-stage="1v1-tested"]::before { background: #4ba8cf; }
+  .status-legend [data-stage="match-tested"]::before { background: #59a978; }
+  .status-legend [data-stage="re-tested"]::before { background: #a17ad2; }
+  .status-legend [data-stage="mastered"]::before { background: var(--mastery-accent); box-shadow: 0 0 12px rgb(105 217 255 / 55%); }
   .filters { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 0.75rem; padding: 1rem; border: 1px solid var(--mastery-line); background: var(--mastery-surface); }
   .filters label { display: grid; gap: 0.35rem; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
   .filters :is(input, select) { width: 100%; min-height: 2.75rem; padding: 0.6rem 0.7rem; border: 1px solid var(--mastery-line); border-radius: 0; background: #070d17; color: inherit; font: inherit; text-transform: none; }
-  .filter-count { margin: 0.8rem 0 1rem; color: var(--mastery-muted); font: 700 0.8rem var(--font-roboto-mono, monospace); }
+  .filter-count { margin: 0.65rem 0 0; color: var(--mastery-muted); font: 700 0.8rem var(--font-roboto-mono, monospace); }
   .atlas-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
   .matchup-card { display: flex; flex-direction: column; min-height: 23rem; padding: 0; overflow: hidden; border: 1px solid var(--mastery-line); background: linear-gradient(155deg, #101b2d, #070c15 68%); content-visibility: auto; contain-intrinsic-size: 23rem; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
   .matchup-card:hover { transform: translateY(-3px); border-color: rgb(105 217 255 / 48%); box-shadow: var(--mastery-glow); }
@@ -358,8 +380,13 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   [data-status="match-tested"] .status-button { background: #315f46; }
   [data-status="re-tested"] .status-button { background: #593f78; }
   [data-status="mastered"] .status-button { background: var(--mastery-accent); box-shadow: inset 0 -4px 0 var(--mastery-gold); }
+  .atlas-grid.compact { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .atlas-grid.compact .matchup-card { min-height: 12rem; contain-intrinsic-size: 12rem; }
+  .atlas-grid.compact .portrait-frame { height: 5.2rem; }
+  .atlas-grid.compact :is(.focus, .scope-label, details) { display: none; }
+  .atlas-grid.compact .card-top { padding-bottom: 0.8rem; }
   .source-note { margin-top: 1.5rem; color: var(--mastery-muted); font-size: 0.78rem; }
   [hidden] { display: none !important; }
-  @media (max-width: 64rem) { .filters { grid-template-columns: repeat(2, 1fr); } .atlas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 44rem) { .atlas-hero { min-height: 40rem; padding: 1.4rem; align-items: end; padding-bottom: 6rem; } .atlas-hero-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 20%, rgb(3 7 14 / 42%) 72%); } .atlas-stamp { inset: auto auto 1.2rem 1.4rem; text-align: left; } .coverage, .priority { grid-template-columns: 1fr; } .dashboard-head { align-items: start; flex-direction: column; } .filters, .atlas-grid { grid-template-columns: 1fr; } .priority ol { grid-template-columns: 1fr; } }
+  @media (max-width: 64rem) { .filters { grid-template-columns: repeat(2, 1fr); } .atlas-grid, .atlas-grid.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 44rem) { .atlas-hero { min-height: 40rem; padding: 1.4rem; align-items: end; padding-bottom: 6rem; } .atlas-hero-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 20%, rgb(3 7 14 / 42%) 72%); } .atlas-stamp { inset: auto auto 1.2rem 1.4rem; text-align: left; } .coverage, .priority { grid-template-columns: 1fr; } .dashboard-head { align-items: start; flex-direction: column; } .atlas-controls { position: static; padding: 0.55rem; } .status-legend { display: none; } .filters, .atlas-grid, .atlas-grid.compact { grid-template-columns: 1fr; } .priority ol { grid-template-columns: 1fr; } }
 </style>

@@ -1,5 +1,5 @@
 ---
-import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { dataDragonVersion } from "../../../data/champions";
 import { siteConfig } from "../../../site-config";
@@ -24,10 +24,9 @@ const abilities = [
 ];
 ---
 
-<ContentLayout
+<BaseLayout
   title="Volibear worked playbook"
   description="A complete example showing how one champion moves through mechanics, matchup, and global decision loops."
-  wide
   {...siteConfig}
 >
   <header class="playbook-hero">
@@ -35,7 +34,7 @@ const abilities = [
     <div class="playbook-scrim"></div>
     <div class="playbook-copy">
       <p class="eyebrow">Worked example · method, not a build guide</p>
-      <h2>Volibear top,<br />tested end to end</h2>
+      <h1>Volibear top,<br />tested end to end</h1>
       <p>
         This playbook demonstrates the standard expected for any chosen champion.
         It avoids patch-fragile damage numbers and records conditions that can be re-tested.
@@ -61,6 +60,13 @@ const abilities = [
       </article>
     ))}
   </section>
+
+  <nav class="loop-nav" aria-label="Playbook training loops">
+    <a href="#mechanics-heading"><span>01</span> Mechanics</a>
+    <a href="#matchup-heading"><span>02</span> Matchup</a>
+    <a href="#global-heading"><span>03</span> Global map</a>
+    <a href="#audit-heading"><span>04</span> Mastery gate</a>
+  </nav>
 
   <section aria-labelledby="mechanics-heading">
     <p class="eyebrow">Loop 1 · mechanics</p>
@@ -145,7 +151,7 @@ const abilities = [
     </ul>
   </section>
   <p class="riot-source">Volibear artwork and ability icons are served from Riot Games Data Dragon {dataDragonVersion} for educational identification. This course is not endorsed by Riot Games.</p>
-</ContentLayout>
+</BaseLayout>
 
 <script>
   const form = document.querySelector<HTMLFormElement>("#scenario-form");
@@ -163,7 +169,7 @@ const abilities = [
   .playbook-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; filter: saturate(0.72) brightness(0.68) contrast(1.14); z-index: -3; }
   .playbook-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(3 7 14 / 97%) 0 34%, rgb(3 7 14 / 48%) 69%, rgb(3 7 14 / 28%)), linear-gradient(0deg, rgb(3 7 14 / 85%), transparent 55%); z-index: -2; }
   .playbook-copy { align-self: center; }
-  .playbook-hero h2 { max-width: 10ch; margin: 0; font-size: clamp(3.7rem, 8vw, 7.2rem); line-height: 0.8; letter-spacing: -0.07em; text-transform: uppercase; }
+  .playbook-hero h1 { max-width: 10ch; margin: 0; color: #f6f9fb; font-family: "Arial Narrow", "Roboto Condensed", "Public Sans", sans-serif; font-size: clamp(3.7rem, 8vw, 7.2rem); font-weight: 900; line-height: 0.8; letter-spacing: -0.07em; text-transform: uppercase; }
   .playbook-copy > p:not(.eyebrow) { max-width: 58ch; color: #c1cfda; font-size: 1.08rem; }
   .atlas-link { display: inline-flex; margin-top: 0.8rem; padding: 0.8rem 1rem; background: var(--mastery-accent); color: #04101a; font-weight: 900; text-decoration: none; text-transform: uppercase; }
   .contract { position: relative; padding: 1.25rem; border: 1px solid rgb(255 255 255 / 22%); background: rgb(5 10 18 / 76%); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%); backdrop-filter: blur(15px); }
@@ -179,6 +185,10 @@ const abilities = [
   .ability-strip div { display: grid; gap: 0.2rem; }
   .ability-strip span { color: var(--mastery-gold); font: 900 0.68rem ui-monospace, monospace; text-transform: uppercase; }
   .ability-strip strong { font-size: 0.78rem; }
+  .loop-nav { position: sticky; top: 4.8rem; z-index: 20; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 5rem; padding: 1px; background: var(--mastery-line); box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 28%); }
+  .loop-nav a { display: flex; gap: 0.65rem; align-items: center; padding: 0.85rem 1rem; color: white; background: rgb(5 9 16 / 94%); font-size: 0.78rem; font-weight: 900; text-decoration: none; text-transform: uppercase; backdrop-filter: blur(14px); }
+  .loop-nav a:hover { color: #04101a; background: var(--mastery-accent); }
+  .loop-nav span { color: var(--mastery-gold); font: 900 0.65rem ui-monospace, monospace; }
   section { margin-block: 4rem; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -204,6 +214,13 @@ const abilities = [
   .global-grid p { color: var(--mastery-muted); }
   .audit { padding: clamp(1.4rem, 4vw, 3rem); border: 1px solid var(--mastery-accent); background: linear-gradient(120deg, color-mix(in srgb, var(--mastery-accent) 10%, transparent), transparent); }
   .audit ul { columns: 2; }
-  @media (max-width: 52rem) { .playbook-hero, .matchup-protocol { grid-template-columns: 1fr; } .playbook-hero { min-height: 46rem; padding: 1.5rem; } .playbook-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 12%, rgb(3 7 14 / 38%) 80%); } .playbook-copy { align-self: end; } .contract { display: none; } .ability-strip { grid-template-columns: repeat(2, 1fr); } #scenario-form { grid-template-columns: repeat(2, 1fr); } .global-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 34rem) { .matchup-protocol ol, #scenario-form, .ability-strip { grid-template-columns: 1fr; } .audit ul { columns: 1; } }
+  @media (max-width: 52rem) { .playbook-hero, .matchup-protocol { grid-template-columns: 1fr; } .playbook-hero { min-height: 46rem; padding: 1.5rem; } .playbook-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 12%, rgb(3 7 14 / 38%) 80%); } .playbook-copy { align-self: end; } .contract { display: none; } .ability-strip, .loop-nav { grid-template-columns: repeat(2, 1fr); } .loop-nav { position: static; } #scenario-form { grid-template-columns: repeat(2, 1fr); } .global-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 34rem) {
+    .playbook-hero { padding: 1.5rem; }
+    .playbook-hero h1 { max-width: 100%; font-size: clamp(2.8rem, 13.5vw, 3.5rem); line-height: 0.82; }
+    .playbook-copy > p:not(.eyebrow) { font-size: 1rem; }
+    .atlas-link { width: 100%; justify-content: center; }
+    .matchup-protocol ol, #scenario-form, .ability-strip { grid-template-columns: 1fr; }
+    .audit ul { columns: 1; }
+  }
 </style>

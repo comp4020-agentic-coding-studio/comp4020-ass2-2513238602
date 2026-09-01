@@ -7,6 +7,7 @@ import { siteConfig } from "../../site-config";
 <ContentLayout
   title="Assessment"
   description="Three connected submissions that grow from one matchup test into a defensible champion mastery playbook."
+  wide
   {...siteConfig}
 >
   <p class="eyebrow">20% · 40% · 40%</p>
@@ -23,8 +24,8 @@ import { siteConfig } from "../../site-config";
 </ContentLayout>
 
 <style>
-  .weight-strip { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 0.35rem; margin: 1.5rem 0 2rem; }
-  .weight-strip span { padding: 0.8rem; color: white; background: var(--mastery-accent); font-size: 0.82rem; font-weight: 800; text-align: center; }
-  .weight-strip span:first-child { background: var(--mastery-gold); color: var(--mastery-ink); }
+  .weight-strip { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 1px; margin: 2rem 0 2.5rem; padding: 1px; background: var(--mastery-line); }
+  .weight-strip span { padding: 1.2rem; color: #eaf2f8; background: linear-gradient(145deg, #13253a, #09101c); font-size: 0.82rem; font-weight: 900; letter-spacing: 0.04em; text-align: center; text-transform: uppercase; }
+  .weight-strip span:first-child { color: var(--mastery-gold); background: linear-gradient(145deg, rgb(213 173 88 / 18%), #09101c); }
   @media (max-width: 42rem) { .weight-strip { grid-template-columns: 1fr; } }
 </style>

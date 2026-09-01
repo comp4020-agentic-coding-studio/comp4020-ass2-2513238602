@@ -1,0 +1,148 @@
+:root {
+  color-scheme: dark;
+  --at-primary: #69d9ff;
+  --at-content-width: 72rem;
+  --mastery-ink: #050811;
+  --mastery-muted: #9caec1;
+  --mastery-line: rgb(151 196 225 / 18%);
+  --mastery-surface: rgb(14 23 38 / 88%);
+  --mastery-surface-strong: #101b2d;
+  --mastery-accent: #69d9ff;
+  --mastery-gold: #d5ad58;
+  --mastery-danger: #ff6b6b;
+  --mastery-glow: 0 0 42px rgb(82 194 255 / 18%);
+}
+
+html[data-theme],
+html {
+  --at-bg: #050811;
+  --at-bg-alt: #080d17;
+  --at-bg-elevated: #101b2d;
+  --at-text: #eaf2f8;
+  --at-text-secondary: #bccbd7;
+  --at-text-muted: #8295a8;
+  --at-heading: #f6f9fb;
+  --at-link: #69d9ff;
+  --at-link-hover: #b8ecff;
+  --at-divider: rgb(151 196 225 / 18%);
+}
+
+body {
+  color: #eaf2f8;
+  background-color: #050811;
+  background-image:
+    radial-gradient(circle at 88% 9%, rgb(37 139 205 / 16%), transparent 34rem),
+    linear-gradient(90deg, rgb(105 217 255 / 3%) 1px, transparent 1px),
+    linear-gradient(rgb(105 217 255 / 3%) 1px, transparent 1px);
+  background-size: auto, 40px 40px, 40px 40px;
+}
+
+.at-nav {
+  background: rgb(5 8 17 / 88%);
+  border-bottom: 1px solid var(--mastery-line);
+  backdrop-filter: blur(18px);
+}
+
+.at-nav-inner { padding-block: 0.85rem; }
+.at-nav-wordmark {
+  color: white;
+  font: 900 0.95rem/1 ui-monospace, monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.at-nav-links a {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.at-nav-links a[href$="/tools/matchup-atlas/"] {
+  color: #04101a;
+  background: var(--mastery-accent);
+}
+.at-icon-button { border-color: var(--mastery-line); }
+.at-main { padding-block-start: clamp(1rem, 3vw, 2.5rem); }
+.at-footer { background: #03050a; }
+.at-footer-band { background: #020408; }
+
+.at-card {
+  border-color: var(--mastery-line);
+  background: linear-gradient(145deg, rgb(16 27 45 / 92%), rgb(7 12 22 / 96%));
+  box-shadow: 0 1.1rem 3rem rgb(0 0 0 / 22%);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.at-card-image { filter: saturate(0.9) contrast(1.08); }
+a.at-card:hover {
+  border-color: rgb(105 217 255 / 55%);
+  background: #101b2d;
+  box-shadow: var(--mastery-glow);
+  transform: translateY(-3px);
+}
+.at-card-title { color: #f4f8fb; }
+
+:where(h1, h2, h3) {
+  color: #f6f9fb;
+  font-family: "Arial Narrow", "Roboto Condensed", "Public Sans", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+:where(p, li) { text-wrap: pretty; }
+a { text-underline-offset: 0.18em; }
+.lead { max-width: 68ch; color: var(--mastery-muted); font-size: 1.1rem; }
+.eyebrow {
+  margin: 0 0 0.7rem;
+  color: var(--mastery-accent);
+  font: 900 0.72rem/1.2 ui-monospace, monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.training-note {
+  padding: 1rem 1.15rem;
+  border: 1px solid rgb(213 173 88 / 28%);
+  border-inline-start: 4px solid var(--mastery-gold);
+  background: linear-gradient(90deg, rgb(213 173 88 / 10%), var(--mastery-surface));
+}
+.training-note strong { color: var(--mastery-gold); }
+.riot-source { color: var(--mastery-muted); font-size: 0.72rem; }
+:focus-visible { outline: 3px solid var(--mastery-gold); outline-offset: 3px; }
+
+.phase-map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin: 2.5rem 0 3rem;
+  padding: 1px;
+  background: var(--mastery-line);
+  list-style: none;
+}
+.phase-map li {
+  position: relative;
+  min-height: 12rem;
+  padding: 1.15rem;
+  overflow: hidden;
+  background: linear-gradient(150deg, #101b2d, #070c15);
+}
+.phase-map li::after {
+  content: "";
+  position: absolute;
+  width: 8rem;
+  aspect-ratio: 1;
+  inset: auto -3rem -4rem auto;
+  border: 1px solid rgb(105 217 255 / 18%);
+  border-radius: 50%;
+}
+.phase-map span { color: var(--mastery-gold); font: 900 0.7rem ui-monospace, monospace; }
+.phase-map strong { display: block; margin-top: 2rem; font-size: 1.2rem; text-transform: uppercase; }
+.phase-map small { color: var(--mastery-accent); font: 800 0.66rem ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.phase-map p { margin-bottom: 0; color: var(--mastery-muted); font-size: 0.82rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .at-card-image { transition: transform 420ms ease, filter 420ms ease; }
+}
+
+@media (max-width: 640px) {
+  :root { --at-content-width: 100%; }
+  .at-nav-wordmark { font-size: 0.78rem; }
+  .phase-map { grid-template-columns: 1fr 1fr; }
+  .phase-map li { min-height: 10rem; }
+}

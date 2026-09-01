@@ -2,11 +2,19 @@
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import LecturesGrid from "../../components/LecturesGrid.astro";
 import { siteConfig } from "../../site-config";
+
+const phases = [
+  ["01–03", "Foundation", "Mechanics, wave state, repeatability"],
+  ["04–07", "Counter Lab", "Hypotheses, setup, pressure tests"],
+  ["08–10", "Map Transfer", "Review, objectives, teamfights"],
+  ["11–12", "Mastery Audit", "Re-test and defend the playbook"],
+];
 ---
 
 <ContentLayout
   title="Lectures"
   description="Twelve concise theory sessions that feed directly into the champion practice loop."
+  wide
   {...siteConfig}
 >
   <p class="eyebrow">12 weeks · one evolving playbook</p>
@@ -14,5 +22,8 @@ import { siteConfig } from "../../site-config";
     Each lecture gives the next Champion Lab a decision model: plan a test, run it,
     review evidence, revise the rule, and schedule the next challenge.
   </p>
+  <ol class="phase-map" aria-label="Lecture progression">
+    {phases.map(([weeks, title, copy], index) => <li><span>0{index + 1}</span><strong>{title}</strong><small>Weeks {weeks}</small><p>{copy}</p></li>)}
+  </ol>
   <LecturesGrid />
 </ContentLayout>

@@ -1,6 +1,7 @@
 import { defineSiteConfig } from "astro-theme-university/types";
 import { slopBranding } from "astro-theme-slop";
 import { courseMeta } from "./course-config";
+import "./styles/course.css";
 export { courseApiCollections, graphCollections } from "./course-api";
 
 // The underlying collection and URL remain `sessions`; these labels are the
@@ -12,7 +13,12 @@ export const sessionLabels = {
 
 export const siteConfig = defineSiteConfig({
   ...slopBranding,
-  name: "Slop University",
+  name: "SLOP3745 // LEAGUE MASTERY",
+  logo: undefined,
+  logoDark: undefined,
+  logoCompact: undefined,
+  logoCompactDark: undefined,
+  colorScheme: "dark",
 
   links: [
     { text: "Start", href: "/" },

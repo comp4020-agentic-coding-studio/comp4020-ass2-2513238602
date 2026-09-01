@@ -2,11 +2,19 @@
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import SessionsGrid from "../../components/SessionsGrid.astro";
 import { sessionLabels, siteConfig } from "../../site-config";
+
+const phases = [
+  ["01–03", "Build", "Baseline, mechanics and lane control"],
+  ["04–07", "Challenge", "Matchup claims under pressure"],
+  ["08–10", "Transfer", "Replay evidence into whole-map value"],
+  ["11–12", "Prove", "Re-test gauntlet and live defence"],
+];
 ---
 
 <ContentLayout
   title={sessionLabels.plural}
   description={`The twelve-week teaching schedule: what happens in each ${sessionLabels.singular.toLowerCase()}, what to prepare, and what leaves the room.`}
+  wide
   {...siteConfig}
 >
   <p class="eyebrow">Practice · evidence · revision</p>
@@ -15,5 +23,8 @@ import { sessionLabels, siteConfig } from "../../site-config";
     decision tree, or re-test. Bring the named preparation and leave with the
     next version of your champion playbook.
   </p>
+  <ol class="phase-map" aria-label="Champion Lab progression">
+    {phases.map(([weeks, title, copy], index) => <li><span>0{index + 1}</span><strong>{title}</strong><small>Weeks {weeks}</small><p>{copy}</p></li>)}
+  </ol>
   <SessionsGrid />
 </ContentLayout>
