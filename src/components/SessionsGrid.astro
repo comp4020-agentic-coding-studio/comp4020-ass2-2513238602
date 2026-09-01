@@ -7,12 +7,14 @@ import { formatCourseDate } from "../lib/dates";
 
 const sessions = await getPublishedCollection("sessions");
 const visible = sessions.sort((a, b) => a.data.week - b.data.week);
+const championByWeek = ["Volibear", "Camille", "Renekton", "Gwen", "Jax", "Kennen", "Vayne", "Ornn", "Shen", "Malphite", "Fiora", "Volibear"];
+const splash = (id: string) => ({ src: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`, width: 1215, height: 717 });
 ---
 
 <CardGrid columns={2}>
   {
     visible.map((session) => (
-      <Card headingLevel="h2" title={session.data.title} href={withBase(`/sessions/${session.id}/`)}>
+      <Card headingLevel="h2" title={`LAB ${String(session.data.week).padStart(2, "0")} / ${session.data.title}`} href={withBase(`/sessions/${session.id}/`)} image={splash(championByWeek[session.data.week - 1])} imageAlt={`${championByWeek[session.data.week - 1]} official splash artwork`}>
         {session.data.description && <p>{session.data.description}</p>}
         <p>
           <small>Week {session.data.week} · {formatCourseDate(session.data.date)}</small>

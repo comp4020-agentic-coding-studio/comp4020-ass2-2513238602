@@ -1,6 +1,7 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { withBase } from "astro-theme-university/url";
+import { dataDragonVersion } from "../../../data/champions";
 import { siteConfig } from "../../../site-config";
 
 const mechanics = [
@@ -15,6 +16,12 @@ const globalStates = [
   ["Even", "Choose side value versus group value before showing", "Teleport, safe collector, allied engage, vision line"],
   ["Behind", "Protect reliable income and deny the easiest enemy conversion", "Wave loss ceiling, cross-map trade, peel value"],
 ];
+const abilities = [
+  ["Q", "Thundering Smash", "VolibearQ.png", "Approach angle + reset"],
+  ["W", "Frenzied Maul", "VolibearW.png", "Short trade + second bite"],
+  ["E", "Sky Splitter", "VolibearE.png", "Zone + shield timing"],
+  ["R", "Stormbringer", "VolibearR.png", "Commit + exit cost"],
+];
 ---
 
 <ContentLayout
@@ -24,7 +31,9 @@ const globalStates = [
   {...siteConfig}
 >
   <header class="playbook-hero">
-    <div>
+    <img class="playbook-art" src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg" alt="Volibear official splash artwork" />
+    <div class="playbook-scrim"></div>
+    <div class="playbook-copy">
       <p class="eyebrow">Worked example · method, not a build guide</p>
       <h2>Volibear top,<br />tested end to end</h2>
       <p>
@@ -43,6 +52,15 @@ const globalStates = [
       </dl>
     </div>
   </header>
+
+  <section class="ability-strip" aria-label="Volibear mechanic checkpoints">
+    {abilities.map(([key, name, icon, focus]) => (
+      <article>
+        <img src={`https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/spell/${icon}`} alt={`${name} ability icon`} loading="lazy" />
+        <div><span>{key} / {name}</span><strong>{focus}</strong></div>
+      </article>
+    ))}
+  </section>
 
   <section aria-labelledby="mechanics-heading">
     <p class="eyebrow">Loop 1 · mechanics</p>
@@ -126,6 +144,7 @@ const globalStates = [
       <li>a future re-test trigger is recorded.</li>
     </ul>
   </section>
+  <p class="riot-source">Volibear artwork and ability icons are served from Riot Games Data Dragon {dataDragonVersion} for educational identification. This course is not endorsed by Riot Games.</p>
 </ContentLayout>
 
 <script>
@@ -140,29 +159,38 @@ const globalStates = [
 </script>
 
 <style>
-  .playbook-hero { display: grid; grid-template-columns: 1.35fr 0.65fr; gap: clamp(2rem, 6vw, 5rem); align-items: end; margin: 1rem 0 4rem; }
-  .playbook-hero h2 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.88; letter-spacing: -0.065em; }
-  .playbook-hero > div > p:not(.eyebrow) { max-width: 60ch; font-size: 1.08rem; color: var(--mastery-muted); }
-  .atlas-link { display: inline-flex; margin-top: 0.8rem; padding: 0.75rem 1rem; background: var(--mastery-accent); color: white; font-weight: 800; text-decoration: none; }
-  .contract { padding: 1.25rem; border: 1px solid var(--mastery-line); background: var(--mastery-surface); transform: rotate(1.5deg); }
+  .playbook-hero { position: relative; display: grid; grid-template-columns: 1.35fr 0.65fr; gap: clamp(2rem, 6vw, 5rem); min-height: 39rem; align-items: end; margin: 0 0 1rem; padding: clamp(2rem, 6vw, 5rem); overflow: hidden; border: 1px solid var(--mastery-line); background: #07101a; isolation: isolate; }
+  .playbook-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; filter: saturate(0.72) brightness(0.68) contrast(1.14); z-index: -3; }
+  .playbook-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(3 7 14 / 97%) 0 34%, rgb(3 7 14 / 48%) 69%, rgb(3 7 14 / 28%)), linear-gradient(0deg, rgb(3 7 14 / 85%), transparent 55%); z-index: -2; }
+  .playbook-copy { align-self: center; }
+  .playbook-hero h2 { max-width: 10ch; margin: 0; font-size: clamp(3.7rem, 8vw, 7.2rem); line-height: 0.8; letter-spacing: -0.07em; text-transform: uppercase; }
+  .playbook-copy > p:not(.eyebrow) { max-width: 58ch; color: #c1cfda; font-size: 1.08rem; }
+  .atlas-link { display: inline-flex; margin-top: 0.8rem; padding: 0.8rem 1rem; background: var(--mastery-accent); color: #04101a; font-weight: 900; text-decoration: none; text-transform: uppercase; }
+  .contract { position: relative; padding: 1.25rem; border: 1px solid rgb(255 255 255 / 22%); background: rgb(5 10 18 / 76%); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%); backdrop-filter: blur(15px); }
   .contract > span { font: 800 0.7rem var(--font-roboto-mono, monospace); text-transform: uppercase; }
   .contract > strong { display: block; margin: 1rem 0; font-size: 1.55rem; }
   .contract dl { margin: 0; }
   .contract dl div { padding: 0.7rem 0; border-top: 1px solid var(--mastery-line); }
   .contract dt { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
   .contract dd { margin: 0.2rem 0 0; }
+  .ability-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 0 0 5rem; padding: 1px; background: var(--mastery-line); }
+  .ability-strip article { display: flex; gap: 0.8rem; align-items: center; padding: 0.9rem; background: var(--mastery-surface); }
+  .ability-strip img { width: 3.2rem; height: 3.2rem; object-fit: cover; border: 1px solid rgb(213 173 88 / 58%); }
+  .ability-strip div { display: grid; gap: 0.2rem; }
+  .ability-strip span { color: var(--mastery-gold); font: 900 0.68rem ui-monospace, monospace; text-transform: uppercase; }
+  .ability-strip strong { font-size: 0.78rem; }
   section { margin-block: 4rem; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   th, td { padding: 0.9rem; border: 1px solid var(--mastery-line); text-align: left; vertical-align: top; }
-  th { background: var(--mastery-accent); color: white; }
+  th { background: #12243a; color: white; }
   .matchup-protocol { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 2rem; }
   .matchup-protocol ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0; padding: 1px; background: var(--mastery-line); list-style: none; }
-  .matchup-protocol li { padding: 1rem; background: var(--at-bg, white); }
+  .matchup-protocol li { padding: 1rem; background: var(--mastery-surface); }
   .matchup-protocol li span { color: var(--mastery-gold); font: 800 0.72rem var(--font-roboto-mono, monospace); }
   .matchup-protocol li strong { display: block; margin: 0.8rem 0 0.25rem; }
   .matchup-protocol li p { margin: 0; color: var(--mastery-muted); font-size: 0.85rem; }
-  .scenario-lab { padding: clamp(1.2rem, 4vw, 2.5rem); background: var(--mastery-ink); color: white; }
+  .scenario-lab { position: relative; padding: clamp(1.2rem, 4vw, 2.5rem); overflow: hidden; border: 1px solid rgb(105 217 255 / 28%); background: radial-gradient(circle at 90% 0%, rgb(105 217 255 / 16%), transparent 40%), #03060c; color: white; }
   .scenario-lab .eyebrow { color: #f1d46d; }
   #scenario-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 1.5rem; }
   #scenario-form label { display: grid; gap: 0.35rem; color: #ddd; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
@@ -170,12 +198,12 @@ const globalStates = [
   #scenario-form option { color: black; }
   #scenario-output { display: block; margin-top: 1rem; padding: 1rem; border-left: 4px solid var(--mastery-gold); background: #ffffff10; font-size: 1.05rem; }
   .global-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
-  .global-grid article { padding: 1.2rem; border: 1px solid var(--mastery-line); }
+  .global-grid article { padding: 1.2rem; border: 1px solid var(--mastery-line); background: linear-gradient(145deg, var(--mastery-surface), #070c15); }
   .global-grid span { color: var(--mastery-accent); font: 800 0.72rem var(--font-roboto-mono, monospace); text-transform: uppercase; }
   .global-grid h3 { margin: 0.8rem 0; }
   .global-grid p { color: var(--mastery-muted); }
   .audit { padding: clamp(1.4rem, 4vw, 3rem); border: 1px solid var(--mastery-accent); background: linear-gradient(120deg, color-mix(in srgb, var(--mastery-accent) 10%, transparent), transparent); }
   .audit ul { columns: 2; }
-  @media (max-width: 52rem) { .playbook-hero, .matchup-protocol { grid-template-columns: 1fr; } #scenario-form { grid-template-columns: repeat(2, 1fr); } .global-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 34rem) { .matchup-protocol ol, #scenario-form { grid-template-columns: 1fr; } .audit ul { columns: 1; } }
+  @media (max-width: 52rem) { .playbook-hero, .matchup-protocol { grid-template-columns: 1fr; } .playbook-hero { min-height: 46rem; padding: 1.5rem; } .playbook-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 12%, rgb(3 7 14 / 38%) 80%); } .playbook-copy { align-self: end; } .contract { display: none; } .ability-strip { grid-template-columns: repeat(2, 1fr); } #scenario-form { grid-template-columns: repeat(2, 1fr); } .global-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 34rem) { .matchup-protocol ol, #scenario-form, .ability-strip { grid-template-columns: 1fr; } .audit ul { columns: 1; } }
 </style>

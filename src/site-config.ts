@@ -24,6 +24,6 @@ export const siteConfig = defineSiteConfig({
   ],
 
   licence: "CC-BY-NC-SA-4.0",
-  socialImage: "/src/assets/images/champion-mastery-card.png",
-  socialImageAlt: `An editorial training poster for ${courseMeta.code}: abstract storm-bear energy above a top-lane practice map`,
+  socialImage: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg",
+  socialImageAlt: `Official Volibear splash artwork used for the ${courseMeta.code} champion-mastery course preview`,
 });

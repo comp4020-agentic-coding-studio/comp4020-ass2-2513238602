@@ -7,6 +7,7 @@ import { siteConfig } from "../../../site-config";
 const laneCount = champions.filter((champion) => champion.lanePool).length;
 const priorityChampions = champions.filter((champion) => champion.priority);
 const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "Support"];
+const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${id}.png`;
 ---
 
 <ContentLayout
@@ -16,6 +17,8 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
   {...siteConfig}
 >
   <header class="atlas-hero">
+    <img class="atlas-hero-art" src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg" alt="Volibear official splash artwork" />
+    <div class="atlas-hero-scrim"></div>
     <div>
       <p class="eyebrow">Selected mastery project · Top lane</p>
       <h2>All 173 opponents.<br />One evidence trail.</h2>
@@ -26,9 +29,7 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
       </p>
       <a class="playbook-link" href={withBase("/tools/volibear-playbook/")}>Read the worked Volibear playbook →</a>
     </div>
-    <div class="bear-mark" aria-hidden="true">
-      <span>V</span><small>storm / claw / revise</small>
-    </div>
+    <p class="atlas-stamp" aria-hidden="true"><strong>173</strong><span>COMPLETE ROSTER</span></p>
   </header>
 
   <section class="coverage" aria-labelledby="coverage-heading">
@@ -59,7 +60,7 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
       <p>Begin here, then replace the order with your own replay and lab evidence.</p>
     </div>
     <ol>
-      {priorityChampions.map((champion) => <li><button type="button" data-jump={champion.id}>{champion.name}</button></li>)}
+      {priorityChampions.map((champion) => <li><button type="button" data-jump={champion.id}><img src={portrait(champion.id)} alt="" loading="lazy" />{champion.name}</button></li>)}
     </ol>
   </section>
 
@@ -131,8 +132,8 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
           data-priority={String(champion.priority)}
           data-status="unseen"
         >
+          <div class="portrait-frame"><img src={portrait(champion.id)} alt={`${champion.name} champion portrait`} loading="lazy" decoding="async" /></div>
           <div class="card-top">
-            <div class="initial" aria-hidden="true">{champion.name.slice(0, 2).toUpperCase()}</div>
             <div>
               <h3>{champion.name}</h3>
               <p>{champion.tags.join(" · ")}</p>
@@ -158,7 +159,7 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
     </div>
 
     <p class="source-note">
-      Roster names and Riot role tags are frozen to Data Dragon {dataDragonVersion} for reproducibility.
+      Roster names, role tags, and champion portraits are served from Riot Games Data Dragon {dataDragonVersion} for educational identification.
       The lane pool and test priorities are course planning prompts, not live balance claims.
     </p>
   </section>
@@ -295,25 +296,29 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
 
 <style>
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-  .atlas-hero { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: clamp(2rem, 6vw, 5rem); align-items: center; margin: 1rem 0 2.5rem; }
-  .atlas-hero h2 { max-width: 12ch; margin: 0; font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: 0.88; letter-spacing: -0.065em; }
-  .atlas-lede { max-width: 67ch; margin-top: 1.5rem; font-size: 1.08rem; color: var(--mastery-muted); }
-  .playbook-link { display: inline-flex; margin-top: 0.6rem; color: var(--mastery-accent); font-weight: 800; }
-  .bear-mark { aspect-ratio: 1; display: grid; place-content: center; border: 1px solid var(--mastery-line); border-radius: 50%; background: radial-gradient(circle at 50% 35%, #f1db78 0 7%, transparent 8%), conic-gradient(from 30deg, var(--mastery-accent), #0b3c35, var(--mastery-gold), var(--mastery-accent)); color: white; text-align: center; box-shadow: 0 1.5rem 4rem color-mix(in srgb, var(--mastery-accent) 22%, transparent); }
-  .bear-mark span { font-size: 5rem; font-weight: 900; line-height: 0.9; }
-  .bear-mark small { display: block; max-width: 10ch; margin: 0.5rem auto 0; font: 700 0.65rem/1.2 var(--font-roboto-mono, monospace); letter-spacing: 0.08em; text-transform: uppercase; }
+  .atlas-hero { position: relative; display: grid; min-height: 36rem; align-items: center; margin: 0 0 2.5rem; padding: clamp(2rem, 6vw, 5rem); overflow: hidden; border: 1px solid var(--mastery-line); background: #07101a; isolation: isolate; }
+  .atlas-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 65% center; filter: saturate(0.72) brightness(0.72) contrast(1.15); z-index: -3; }
+  .atlas-hero-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(3 7 14 / 96%) 0 37%, rgb(3 7 14 / 52%) 66%, transparent), linear-gradient(0deg, rgb(3 7 14 / 75%), transparent 55%); z-index: -2; }
+  .atlas-hero > div:last-of-type { max-width: 48rem; }
+  .atlas-hero h2 { max-width: 10ch; margin: 0; font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: 0.82; letter-spacing: -0.07em; text-transform: uppercase; }
+  .atlas-lede { max-width: 62ch; margin-top: 1.5rem; color: #c1cfda; font-size: 1.08rem; }
+  .playbook-link { display: inline-flex; margin-top: 0.6rem; padding: 0.8rem 1rem; color: #04101a; background: var(--mastery-accent); font-weight: 900; text-decoration: none; text-transform: uppercase; }
+  .atlas-stamp { position: absolute; inset: auto 1.5rem 1.4rem auto; display: grid; margin: 0; text-align: right; }
+  .atlas-stamp strong { color: var(--mastery-gold); font-size: clamp(3rem, 7vw, 6rem); line-height: 0.8; }
+  .atlas-stamp span { color: white; font: 900 0.65rem ui-monospace, monospace; letter-spacing: 0.15em; }
   .coverage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 2rem 0; border: 1px solid var(--mastery-line); background: var(--mastery-line); }
-  .coverage > div { padding: 1.2rem; background: var(--at-bg, white); }
+  .coverage > div { padding: 1.2rem; background: var(--mastery-surface); }
   .coverage p { margin: 0.45rem 0 0; color: var(--mastery-muted); font-size: 0.9rem; }
   .metric { display: flex; align-items: baseline; gap: 0.55rem; }
   .metric strong { color: var(--mastery-accent); font-size: 2rem; line-height: 1; }
-  .metric span { color: var(--mastery-ink); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-  .priority { display: grid; grid-template-columns: minmax(14rem, 0.8fr) 1.8fr; gap: 2rem; margin: 3rem 0; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid var(--mastery-line); background: linear-gradient(135deg, color-mix(in srgb, var(--mastery-gold) 15%, transparent), transparent 58%); }
+  .metric span { color: #eef6fb; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+  .priority { display: grid; grid-template-columns: minmax(14rem, 0.8fr) 1.8fr; gap: 2rem; margin: 3rem 0; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid var(--mastery-line); background: linear-gradient(135deg, rgb(213 173 88 / 12%), var(--mastery-surface) 58%); }
   .priority h2 { margin-top: 0; }
   .priority ol { counter-reset: priority; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.45rem 1.25rem; margin: 0; padding: 0; list-style: none; }
   .priority li { counter-increment: priority; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--mastery-line); }
   .priority li::before { content: counter(priority, decimal-leading-zero); color: var(--mastery-gold); font: 700 0.72rem var(--font-roboto-mono, monospace); }
-  .priority button { flex: 1; padding: 0.65rem 0; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 800; text-align: left; cursor: pointer; }
+  .priority button { flex: 1; display: flex; gap: 0.65rem; align-items: center; padding: 0.5rem 0; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 800; text-align: left; cursor: pointer; }
+  .priority button img { width: 2.4rem; height: 2.4rem; object-fit: cover; border: 1px solid rgb(255 255 255 / 18%); }
   .dashboard { margin-top: 3.5rem; }
   .dashboard-head { display: flex; gap: 1rem; align-items: end; justify-content: space-between; }
   .dashboard-head h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); }
@@ -325,25 +330,28 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
   .progress-copy span { color: var(--mastery-muted); }
   .progress-track { height: 0.55rem; margin-top: 0.8rem; overflow: hidden; background: color-mix(in srgb, var(--mastery-line) 60%, transparent); }
   .progress-track span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--mastery-accent), var(--mastery-gold)); transition: width 220ms ease; }
-  .filters { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 0.75rem; padding: 1rem; background: var(--mastery-surface); }
+  .filters { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 0.75rem; padding: 1rem; border: 1px solid var(--mastery-line); background: var(--mastery-surface); }
   .filters label { display: grid; gap: 0.35rem; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
-  .filters :is(input, select) { width: 100%; min-height: 2.75rem; padding: 0.6rem 0.7rem; border: 1px solid var(--mastery-line); border-radius: 0; background: var(--at-bg, white); color: inherit; font: inherit; text-transform: none; }
+  .filters :is(input, select) { width: 100%; min-height: 2.75rem; padding: 0.6rem 0.7rem; border: 1px solid var(--mastery-line); border-radius: 0; background: #070d17; color: inherit; font: inherit; text-transform: none; }
   .filter-count { margin: 0.8rem 0 1rem; color: var(--mastery-muted); font: 700 0.8rem var(--font-roboto-mono, monospace); }
   .atlas-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
-  .matchup-card { display: flex; flex-direction: column; min-height: 20rem; padding: 1rem; border: 1px solid var(--mastery-line); background: color-mix(in srgb, var(--at-bg, white) 96%, var(--mastery-accent)); content-visibility: auto; contain-intrinsic-size: 20rem; }
+  .matchup-card { display: flex; flex-direction: column; min-height: 23rem; padding: 0; overflow: hidden; border: 1px solid var(--mastery-line); background: linear-gradient(155deg, #101b2d, #070c15 68%); content-visibility: auto; contain-intrinsic-size: 23rem; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+  .matchup-card:hover { transform: translateY(-3px); border-color: rgb(105 217 255 / 48%); box-shadow: var(--mastery-glow); }
   .matchup-card.priority { border-top: 4px solid var(--mastery-gold); }
-  .matchup-card.mirror { border-color: var(--mastery-accent); background: color-mix(in srgb, var(--mastery-accent) 8%, var(--at-bg, white)); }
-  .card-top { display: grid; grid-template-columns: 2.6rem 1fr auto; gap: 0.7rem; align-items: center; }
-  .initial { width: 2.6rem; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--mastery-accent); color: white; font: 800 0.78rem var(--font-roboto-mono, monospace); }
+  .matchup-card.mirror { border-color: var(--mastery-accent); background: linear-gradient(155deg, rgb(35 104 136 / 38%), #070c15 68%); }
+  .portrait-frame { height: 8rem; overflow: hidden; background: #0b1321; }
+  .portrait-frame img { width: 100%; height: 100%; object-fit: cover; image-rendering: auto; transform: scale(1.08); filter: saturate(0.76) contrast(1.1); transition: transform 220ms ease, filter 220ms ease; }
+  .matchup-card:hover .portrait-frame img { transform: scale(1.14); filter: saturate(1) contrast(1.06); }
+  .card-top { display: grid; grid-template-columns: 1fr auto; gap: 0.7rem; align-items: center; padding: 0.9rem 1rem 0; }
   .card-top h3 { margin: 0; font-size: 1.05rem; }
   .card-top p { margin: 0.15rem 0 0; color: var(--mastery-muted); font-size: 0.75rem; }
   .priority-flag { padding: 0.25rem 0.4rem; background: var(--mastery-gold); color: var(--mastery-ink); font-size: 0.6rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; }
-  .focus { margin: 1rem 0 0.6rem; font-size: 0.9rem; }
-  .scope-label { margin: 0; color: var(--mastery-accent); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
-  details { margin: 0.8rem 0; font-size: 0.82rem; }
+  .focus { margin: 1rem 1rem 0.6rem; font-size: 0.9rem; }
+  .scope-label { margin: 0 1rem; color: var(--mastery-accent); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+  details { margin: 0.8rem 1rem; font-size: 0.82rem; }
   details summary { cursor: pointer; font-weight: 750; }
   details ul { padding-left: 1.1rem; }
-  .status-button { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: auto; padding: 0.7rem; border: 0; background: var(--mastery-ink); color: white; cursor: pointer; }
+  .status-button { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: auto; padding: 0.8rem 1rem; border: 0; border-top: 1px solid var(--mastery-line); background: #03060b; color: white; cursor: pointer; }
   .status-button span { opacity: 0.7; }
   [data-status="planned"] .status-button { background: #6d5b24; }
   [data-status="1v1-tested"] .status-button { background: #265c73; }
@@ -353,5 +361,5 @@ const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "
   .source-note { margin-top: 1.5rem; color: var(--mastery-muted); font-size: 0.78rem; }
   [hidden] { display: none !important; }
   @media (max-width: 64rem) { .filters { grid-template-columns: repeat(2, 1fr); } .atlas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 44rem) { .atlas-hero { grid-template-columns: 1fr; } .bear-mark { width: 9rem; } .coverage, .priority { grid-template-columns: 1fr; } .dashboard-head { align-items: start; flex-direction: column; } .filters, .atlas-grid { grid-template-columns: 1fr; } .priority ol { grid-template-columns: 1fr; } }
+  @media (max-width: 44rem) { .atlas-hero { min-height: 40rem; padding: 1.4rem; align-items: end; padding-bottom: 6rem; } .atlas-hero-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 20%, rgb(3 7 14 / 42%) 72%); } .atlas-stamp { inset: auto auto 1.2rem 1.4rem; text-align: left; } .coverage, .priority { grid-template-columns: 1fr; } .dashboard-head { align-items: start; flex-direction: column; } .filters, .atlas-grid { grid-template-columns: 1fr; } .priority ol { grid-template-columns: 1fr; } }
 </style>

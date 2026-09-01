@@ -7,12 +7,14 @@ import { formatCourseDate } from "../lib/dates";
 
 const assessments = await getPublishedCollection("assessments");
 const visible = assessments.sort((a, b) => a.data.week - b.data.week);
+const assessmentArt = ["Volibear", "Fiora", "Ornn"];
+const splash = (id: string) => ({ src: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`, width: 1215, height: 717 });
 ---
 
 <CardGrid columns={2}>
   {
-    visible.map((assessment) => (
-      <Card headingLevel="h2" title={assessment.data.title} href={withBase(`/assessments/${assessment.id}/`)}>
+    visible.map((assessment, index) => (
+      <Card headingLevel="h2" title={assessment.data.title} href={withBase(`/assessments/${assessment.id}/`)} image={splash(assessmentArt[index])} imageAlt={`${assessmentArt[index]} official splash artwork`}>
         {assessment.data.description && <p>{assessment.data.description}</p>}
         {assessment.data.weight != null && (
           <p>
