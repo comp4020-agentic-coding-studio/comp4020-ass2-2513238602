@@ -68,8 +68,12 @@ async function freePort() {
   return port;
 }
 
-async function waitForChrome(port) {
-  for (let attempt = 0; attempt < 50; attempt += 1) {
+async function waitForChrome(port, chrome, diagnostics) {
+  for (let attempt = 0; attempt < 150; attempt += 1) {
+    if (chrome.exitCode !== null) {
+      const detail = diagnostics.join("").trim();
+      throw new Error(`Chrome exited before DevTools became ready${detail ? `: ${detail}` : ""}`);
+    }
     try {
       const response = await fetch(`http://127.0.0.1:${port}/json/version`, {
         signal: AbortSignal.timeout(500),
@@ -140,15 +144,20 @@ const sitePort = server.address().port;
 const debugPort = await freePort();
 const profile = await mkdtemp(join(tmpdir(), "slop3745-viewports-"));
 const chrome = spawn(chromePath(), [
-  "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
-  "--disable-background-networking", `--remote-debugging-port=${debugPort}`,
+  "--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage",
+  "--no-first-run", "--no-default-browser-check", "--disable-background-networking",
+  "--remote-debugging-address=127.0.0.1", `--remote-debugging-port=${debugPort}`,
   `--user-data-dir=${profile}`, "about:blank",
-], { stdio: "ignore", windowsHide: true });
+], { stdio: ["ignore", "ignore", "pipe"], windowsHide: true });
+const chromeDiagnostics = [];
+chrome.stderr.on("data", (chunk) => {
+  if (chromeDiagnostics.join("").length < 4000) chromeDiagnostics.push(chunk.toString());
+});
 
 let cdp;
 let target;
 try {
-  await waitForChrome(debugPort);
+  await waitForChrome(debugPort, chrome, chromeDiagnostics);
   target = await fetch(`http://127.0.0.1:${debugPort}/json/new?about:blank`, {
     method: "PUT",
     signal: AbortSignal.timeout(3000),
