@@ -71,7 +71,9 @@ async function freePort() {
 async function waitForChrome(port) {
   for (let attempt = 0; attempt < 50; attempt += 1) {
     try {
-      const response = await fetch(`http://127.0.0.1:${port}/json/version`);
+      const response = await fetch(`http://127.0.0.1:${port}/json/version`, {
+        signal: AbortSignal.timeout(500),
+      });
       if (response.ok) return;
     } catch {}
     await new Promise((resolveWait) => setTimeout(resolveWait, 100));
@@ -82,8 +84,15 @@ async function waitForChrome(port) {
 async function connect(url) {
   const socket = new WebSocket(url);
   await new Promise((resolveOpen, rejectOpen) => {
-    socket.addEventListener("open", resolveOpen, { once: true });
-    socket.addEventListener("error", rejectOpen, { once: true });
+    const timeout = setTimeout(() => rejectOpen(new Error("Chrome DevTools WebSocket timed out")), 5000);
+    socket.addEventListener("open", () => {
+      clearTimeout(timeout);
+      resolveOpen();
+    }, { once: true });
+    socket.addEventListener("error", (event) => {
+      clearTimeout(timeout);
+      rejectOpen(event.error ?? new Error("Chrome DevTools WebSocket failed"));
+    }, { once: true });
   });
   let sequence = 0;
   const pending = new Map();
@@ -92,13 +101,25 @@ async function connect(url) {
     const call = pending.get(message.id);
     if (!call) return;
     pending.delete(message.id);
+    clearTimeout(call.timeout);
     message.error ? call.reject(new Error(message.error.message)) : call.resolve(message.result);
+  });
+  socket.addEventListener("close", () => {
+    for (const call of pending.values()) {
+      clearTimeout(call.timeout);
+      call.reject(new Error("Chrome DevTools WebSocket closed unexpectedly"));
+    }
+    pending.clear();
   });
   return {
     close: () => socket.close(),
     send: (method, params = {}) => new Promise((resolveCall, rejectCall) => {
       const id = ++sequence;
-      pending.set(id, { resolve: resolveCall, reject: rejectCall });
+      const timeout = setTimeout(() => {
+        pending.delete(id);
+        rejectCall(new Error(`Chrome DevTools command timed out: ${method}`));
+      }, 10000);
+      pending.set(id, { resolve: resolveCall, reject: rejectCall, timeout });
       socket.send(JSON.stringify({ id, method, params }));
     }),
   };
@@ -128,7 +149,10 @@ let cdp;
 let target;
 try {
   await waitForChrome(debugPort);
-  target = await fetch(`http://127.0.0.1:${debugPort}/json/new?about:blank`, { method: "PUT" }).then((response) => response.json());
+  target = await fetch(`http://127.0.0.1:${debugPort}/json/new?about:blank`, {
+    method: "PUT",
+    signal: AbortSignal.timeout(3000),
+  }).then((response) => response.json());
   cdp = await connect(target.webSocketDebuggerUrl);
   await cdp.send("Page.enable");
 
@@ -194,7 +218,11 @@ try {
   console.log("✓ atlas state survives resize and keyboard focus is available");
 } finally {
   cdp?.close();
-  if (target) await fetch(`http://127.0.0.1:${debugPort}/json/close/${target.id}`).catch(() => {});
+  if (target) {
+    await fetch(`http://127.0.0.1:${debugPort}/json/close/${target.id}`, {
+      signal: AbortSignal.timeout(1000),
+    }).catch(() => {});
+  }
   chrome.kill();
   await Promise.race([
     new Promise((resolveExit) => chrome.once("exit", resolveExit)),
