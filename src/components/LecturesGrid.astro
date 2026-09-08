@@ -4,11 +4,11 @@ import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import { withBase } from "astro-theme-university/url";
 import { formatCourseDate } from "../lib/dates";
+import { splash } from "../lib/riot-assets";
 
 const lectures = await getPublishedCollection("lectures");
 const visible = lectures.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 const championByWeek = ["Volibear", "Riven", "Gnar", "Jax", "LeeSin", "Ornn", "Fiora", "TwistedFate", "Shen", "Malphite", "Viego", "Ryze"];
-const splash = (id: string) => ({ src: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`, width: 1215, height: 717 });
 ---
 
 <CardGrid columns={2}>

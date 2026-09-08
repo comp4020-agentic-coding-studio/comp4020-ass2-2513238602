@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { champions, dataDragonVersion } from "../src/data/champions";
@@ -65,5 +65,37 @@ describe("matchup atlas contract", () => {
     expect(html.match(/data-status-button=/g)).toHaveLength(champions.length);
     expect(html).toContain("slop3745-matchup-atlas-v2");
     expect(html).toContain("Export evidence JSON");
+  });
+
+  it("ships the complete visual vocabulary without runtime Data Dragon requests", () => {
+    const assetRoot = resolve("src/assets/riot");
+    const portraitFiles = readdirSync(resolve(assetRoot, "portraits")).filter((file) => file.endsWith(".webp"));
+    const splashFiles = readdirSync(resolve(assetRoot, "splashes")).filter((file) => file.endsWith(".webp"));
+    const abilityFiles = readdirSync(resolve(assetRoot, "abilities")).filter((file) => file.endsWith(".webp"));
+
+    expect(portraitFiles).toHaveLength(champions.length);
+    expect(splashFiles.length).toBeGreaterThanOrEqual(17);
+    expect(abilityFiles).toHaveLength(4);
+    for (const champion of champions) {
+      expect(existsSync(resolve(assetRoot, "portraits", `${champion.id}.webp`))).toBe(true);
+    }
+
+    const htmlFiles = [
+      "dist/index.html",
+      "dist/lectures/index.html",
+      "dist/sessions/index.html",
+      "dist/assessments/index.html",
+      "dist/tools/matchup-atlas/index.html",
+      "dist/tools/volibear-playbook/index.html",
+    ];
+    const rendered = htmlFiles.map((file) => readFileSync(resolve(file), "utf8")).join("\n");
+    expect(rendered).not.toContain("ddragon.leagueoflegends.com");
+  });
+
+  it("keeps the atlas hero within the phone viewport contract", () => {
+    const source = readFileSync(resolve("src/pages/tools/matchup-atlas/index.astro"), "utf8");
+    expect(source).toContain(".atlas-hero > div:last-of-type { min-width: 0; width: 100%; }");
+    expect(source).toContain("font-size: clamp(2.45rem, 10.7vw, 2.65rem)");
+    expect(source).toContain(".playbook-link { width: 100%; box-sizing: border-box;");
   });
 });

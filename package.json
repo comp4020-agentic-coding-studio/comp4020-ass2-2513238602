@@ -3,12 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "git rev-parse --git-dir >/dev/null 2>&1 && git config core.hooksPath .githooks || true",
+    "assets:cache": "node scripts/cache-riot-assets.mjs",
+    "prepare": "node scripts/configure-hooks.mjs",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "check": "pnpm typecheck && pnpm test",
+    "check": "pnpm typecheck && pnpm test && pnpm check:viewports",
+    "check:viewports": "node scripts/check-viewports.mjs",
     "check:evidence": "node scripts/check-evidence.ts",
     "test": "pnpm build && vitest run spec",
     "test:template": "vitest run scripts"
@@ -26,8 +28,13 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/node": "^24.0.0",
+    "aria-query": "5.3.2",
+    "axobject-query": "4.1.0",
+    "html-escaper": "3.0.3",
     "lightningcss": "^1.32.0",
     "pagefind": "^1.5.2",
+    "picomatch": "4.0.5",
+    "source-map-js": "1.2.1",
     "typescript": "^6.0.3",
     "vite": "8.2.2",
     "vitest": "^4.1.10"

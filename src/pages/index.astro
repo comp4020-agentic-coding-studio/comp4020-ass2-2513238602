@@ -5,15 +5,9 @@ import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { courseMeta } from "../course-config";
 import { dataDragonVersion } from "../data/champions";
+import { portrait, splash } from "../lib/riot-assets";
 import { siteConfig } from "../site-config";
 
-const splash = (id: string) => ({
-  src: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`,
-  width: 1215,
-  height: 717,
-});
-const portrait = (id: string) =>
-  `https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${id}.png`;
 const loop = [
   ["01", "PLAN", "Name one interaction and the exact condition you will test."],
   ["02", "DUEL", "Repeat the opening in a controlled 1v1 until the signal is clear."],
@@ -56,7 +50,7 @@ const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
     <div class="opponent-faces">
       {opponents.map((id, index) => (
         <div class="face">
-          <img src={portrait(id)} alt={`${id} champion portrait`} loading="lazy" />
+          <img src={portrait(id).src} alt={`${id} champion portrait`} loading="lazy" />
           <span>0{index + 1}</span><strong>{id}</strong>
         </div>
       ))}
@@ -96,7 +90,7 @@ const opponents = ["Jax", "Gwen", "Vayne", "Ornn"];
     </CardGrid>
   </section>
 
-  <p class="riot-source">League of Legends champion artwork and portraits are served from Riot Games Data Dragon for educational identification. This course is not endorsed by Riot Games.</p>
+  <p class="riot-source">League of Legends champion artwork and portraits are cached locally from Riot Games Data Dragon {dataDragonVersion} for educational identification and resilient loading. This course is not endorsed by Riot Games.</p>
 </BaseLayout>
 
 <style>

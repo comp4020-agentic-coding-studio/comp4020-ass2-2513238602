@@ -1,5 +1,6 @@
 import { defineSiteConfig } from "astro-theme-university/types";
 import { slopBranding } from "astro-theme-slop";
+import socialImage from "./assets/riot/splashes/Volibear.webp";
 import { courseMeta } from "./course-config";
 import "./styles/course.css";
 export { courseApiCollections, graphCollections } from "./course-api";
@@ -30,6 +31,6 @@ export const siteConfig = defineSiteConfig({
   ],
 
   licence: "CC-BY-NC-SA-4.0",
-  socialImage: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg",
+  socialImage,
   socialImageAlt: `Official Volibear splash artwork used for the ${courseMeta.code} champion-mastery course preview`,
 });

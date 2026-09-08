@@ -2,12 +2,12 @@
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { champions, dataDragonVersion } from "../../../data/champions";
+import { portrait, splash } from "../../../lib/riot-assets";
 import { siteConfig } from "../../../site-config";
 
 const laneCount = champions.filter((champion) => champion.lanePool).length;
 const priorityChampions = champions.filter((champion) => champion.priority);
 const typeOptions = ["All", "Fighter", "Tank", "Mage", "Assassin", "Marksman", "Support"];
-const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${id}.png`;
 ---
 
 <BaseLayout
@@ -16,7 +16,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   {...siteConfig}
 >
   <header class="atlas-hero">
-    <img class="atlas-hero-art" src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg" alt="Volibear official splash artwork" />
+    <img class="atlas-hero-art" src={splash("Volibear").src} alt="Volibear official splash artwork" />
     <div class="atlas-hero-scrim"></div>
     <div>
       <p class="eyebrow">Selected mastery project · Top lane</p>
@@ -59,7 +59,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
       <p>Begin here, then replace the order with your own replay and lab evidence.</p>
     </div>
     <ol>
-      {priorityChampions.map((champion) => <li><button type="button" data-jump={champion.id}><img src={portrait(champion.id)} alt="" loading="lazy" />{champion.name}</button></li>)}
+      {priorityChampions.map((champion) => <li><button type="button" data-jump={champion.id}><img src={portrait(champion.id).src} alt="" loading="lazy" />{champion.name}</button></li>)}
     </ol>
   </section>
 
@@ -137,7 +137,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
           data-priority={String(champion.priority)}
           data-status="unseen"
         >
-          <div class="portrait-frame"><img src={portrait(champion.id)} alt={`${champion.name} champion portrait`} loading="lazy" decoding="async" /></div>
+          <div class="portrait-frame"><img src={portrait(champion.id).src} alt={`${champion.name} champion portrait`} loading="lazy" decoding="async" /></div>
           <div class="card-top">
             <div>
               <h3>{champion.name}</h3>
@@ -164,7 +164,7 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
     </div>
 
     <p class="source-note">
-      Roster names, role tags, and champion portraits are served from Riot Games Data Dragon {dataDragonVersion} for educational identification.
+      Roster names, role tags, and champion portraits are cached locally from Riot Games Data Dragon {dataDragonVersion} for educational identification and resilient loading.
       The lane pool and test priorities are course planning prompts, not live balance claims.
     </p>
   </section>
@@ -388,5 +388,19 @@ const portrait = (id: string) => `https://ddragon.leagueoflegends.com/cdn/${data
   .source-note { margin-top: 1.5rem; color: var(--mastery-muted); font-size: 0.78rem; }
   [hidden] { display: none !important; }
   @media (max-width: 64rem) { .filters { grid-template-columns: repeat(2, 1fr); } .atlas-grid, .atlas-grid.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 44rem) { .atlas-hero { min-height: 40rem; padding: 1.4rem; align-items: end; padding-bottom: 6rem; } .atlas-hero-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 20%, rgb(3 7 14 / 42%) 72%); } .atlas-stamp { inset: auto auto 1.2rem 1.4rem; text-align: left; } .coverage, .priority { grid-template-columns: 1fr; } .dashboard-head { align-items: start; flex-direction: column; } .atlas-controls { position: static; padding: 0.55rem; } .status-legend { display: none; } .filters, .atlas-grid, .atlas-grid.compact { grid-template-columns: 1fr; } .priority ol { grid-template-columns: 1fr; } }
+  @media (max-width: 44rem) {
+    .atlas-hero { min-height: 40rem; padding: 1.4rem 1.4rem 6rem; align-items: end; }
+    .atlas-hero > div:last-of-type { min-width: 0; width: 100%; }
+    .atlas-hero h1 { max-width: 100%; font-size: clamp(2.45rem, 10.7vw, 2.65rem); line-height: 0.84; overflow-wrap: normal; word-break: normal; }
+    .atlas-lede { max-width: 100%; }
+    .playbook-link { width: 100%; box-sizing: border-box; justify-content: center; text-align: center; }
+    .atlas-hero-scrim { background: linear-gradient(0deg, rgb(3 7 14 / 96%) 20%, rgb(3 7 14 / 42%) 72%); }
+    .atlas-stamp { inset: auto auto 1.2rem 1.4rem; text-align: left; }
+    .coverage, .priority { grid-template-columns: 1fr; }
+    .dashboard-head { align-items: start; flex-direction: column; }
+    .atlas-controls { position: static; padding: 0.55rem; }
+    .status-legend { display: none; }
+    .filters, .atlas-grid, .atlas-grid.compact { grid-template-columns: 1fr; }
+    .priority ol { grid-template-columns: 1fr; }
+  }
 </style>

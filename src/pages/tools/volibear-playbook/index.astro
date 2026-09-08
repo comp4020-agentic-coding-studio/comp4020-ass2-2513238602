@@ -2,6 +2,7 @@
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import { withBase } from "astro-theme-university/url";
 import { dataDragonVersion } from "../../../data/champions";
+import { ability, splash } from "../../../lib/riot-assets";
 import { siteConfig } from "../../../site-config";
 
 const mechanics = [
@@ -17,10 +18,10 @@ const globalStates = [
   ["Behind", "Protect reliable income and deny the easiest enemy conversion", "Wave loss ceiling, cross-map trade, peel value"],
 ];
 const abilities = [
-  ["Q", "Thundering Smash", "VolibearQ.png", "Approach angle + reset"],
-  ["W", "Frenzied Maul", "VolibearW.png", "Short trade + second bite"],
-  ["E", "Sky Splitter", "VolibearE.png", "Zone + shield timing"],
-  ["R", "Stormbringer", "VolibearR.png", "Commit + exit cost"],
+  ["Q", "Thundering Smash", "VolibearQ", "Approach angle + reset"],
+  ["W", "Frenzied Maul", "VolibearW", "Short trade + second bite"],
+  ["E", "Sky Splitter", "VolibearE", "Zone + shield timing"],
+  ["R", "Stormbringer", "VolibearR", "Commit + exit cost"],
 ];
 ---
 
@@ -30,7 +31,7 @@ const abilities = [
   {...siteConfig}
 >
   <header class="playbook-hero">
-    <img class="playbook-art" src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg" alt="Volibear official splash artwork" />
+    <img class="playbook-art" src={splash("Volibear").src} alt="Volibear official splash artwork" />
     <div class="playbook-scrim"></div>
     <div class="playbook-copy">
       <p class="eyebrow">Worked example · method, not a build guide</p>
@@ -55,7 +56,7 @@ const abilities = [
   <section class="ability-strip" aria-label="Volibear mechanic checkpoints">
     {abilities.map(([key, name, icon, focus]) => (
       <article>
-        <img src={`https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/spell/${icon}`} alt={`${name} ability icon`} loading="lazy" />
+        <img src={ability(icon).src} alt={`${name} ability icon`} loading="lazy" />
         <div><span>{key} / {name}</span><strong>{focus}</strong></div>
       </article>
     ))}
@@ -150,7 +151,7 @@ const abilities = [
       <li>a future re-test trigger is recorded.</li>
     </ul>
   </section>
-  <p class="riot-source">Volibear artwork and ability icons are served from Riot Games Data Dragon {dataDragonVersion} for educational identification. This course is not endorsed by Riot Games.</p>
+  <p class="riot-source">Volibear artwork and ability icons are cached locally from Riot Games Data Dragon {dataDragonVersion} for educational identification and resilient loading. This course is not endorsed by Riot Games.</p>
 </BaseLayout>
 
 <script>
